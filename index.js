@@ -6,27 +6,13 @@ const porta = process.env.PORT;
 const db = require('./model/database') //importando a conexão do banco
 const filme = require('./model/filme' )
 
+const filmes = require('./model/filme');
+
+let message = ""
+
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
-let message = "";
-
-
-// teste crud js puro
-
-const filmes = [{
-  nome:"capitao",
-  genero:"acao",
-  image:"https://a-static.mlcdn.com.br/1500x1500/dvd-capitao-america-o-primeiro-vingador-rimo/campinascomercio2/1678014411/6352bfcb6d963f1f0b3fd68f558e6bf2.jpg",
-  autor:"stalen"
-},
-{
-  nome:"capita",
-  genero:"acao",
-  image:"https://upload.wikimedia.org/wikipedia/pt/5/59/Captain_Marvel_%282018%29.jpg",
-  autor:"stalen"
-
-}]
+app.use(express.urlencoded({ extended: true }))
 
 // render com a mensagem 
 
@@ -35,13 +21,14 @@ app.get("/", (req, res) => {
     message = "";
   }, 5000);
   res.render("index", {   
-    {filmes, message}
+    filmes, message
   });
 });
 
+
 app.get("/filme", async (req, res) => {
-  const filme = await Filme.findAll();
-  res.render 
+  const filme = await filmes.findAll();
+  res.render('teste',{filme}); 
 });
 
 // render cadastro
@@ -53,7 +40,7 @@ app.get("/cadastro", (req, res) => {
 // render pos cadastro com teste de node js, e mensagem 5 s
 
 app.post("/New", (req, res) => {  
-  const {nome} = req.body;  
+  const {nome,genero,image,autor,ano} = req.body;  
 message = `O Filme ${nome} foi adicionado`
   res.redirect("/")
 })
