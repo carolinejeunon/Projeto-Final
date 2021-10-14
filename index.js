@@ -3,13 +3,14 @@ const path = require("path");
 const app = express();
 require('dotenv').config()
 const porta = process.env.PORT;
-const db = require('./model/database')
-const filme = require('/model/filmes' )
+const db = require('./model/database') //importando a conexão do banco
+const filme = require('./model/filme' )
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 let message = "";
+
 
 // teste crud js puro
 
@@ -34,13 +35,13 @@ app.get("/", (req, res) => {
     message = "";
   }, 5000);
   res.render("index", {   
-    filmes,
+    {filmes, message}
   });
 });
 
 app.get("/filme", async (req, res) => {
-  const filme = await Cargo.findAll();
-  res.json(filme); 
+  const filme = await Filme.findAll();
+  res.render 
 });
 
 // render cadastro
