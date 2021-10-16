@@ -4,10 +4,7 @@ const app = express();
 require('dotenv').config()
 const porta = process.env.PORT;
 const db = require('./model/database') //importando a conexão do banco
-const filme = require('./model/filme' )
-
 const filmes = require('./model/filme');
-
 let message = ""
 
 app.set("view engine", "ejs");
@@ -28,18 +25,18 @@ app.get("/", (req, res) => {
 
 app.get("/filme", async (req, res) => {
   const filme = await filmes.findAll();
-  res.render('teste',{filme}); 
+  res.render("../views/filme", {filme: filme}); 
 });
 
 // render cadastro
 
-app.get("/cadastro", (req, res) => {
+app.get("/cadastro", async  (req, res) => {
   res.render("../views/cadastro");
 });
 
 // render pos cadastro com teste de node js, e mensagem 5 s
 
-app.post("/New", (req, res) => {  
+app.post("/cadastro", async (req, res) => {  
   const {nome,genero,image,autor,ano} = req.body;  
 message = `O Filme ${nome} foi adicionado`
   res.redirect("/")
